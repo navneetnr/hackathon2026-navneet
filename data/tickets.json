@@ -3,56 +3,18 @@
     "id": "T1001",
     "issue": "refund request - product defective",
     "order_id": "ORD-001",
-    "customer_email": "john.doe@example.com",
-    "priority": "high",
-    "timestamp": "2024-01-15T10:30:00"
+    "customer_email": "john.doe@example.com"
   },
   {
     "id": "T1002",
     "issue": "order not delivered yet",
     "order_id": "ORD-002",
-    "customer_email": "jane.smith@example.com",
-    "priority": "medium",
-    "timestamp": "2024-01-15T11:00:00"
+    "customer_email": "jane.smith@example.com"
   },
   {
     "id": "T1003",
     "issue": "wrong product received",
     "order_id": "ORD-003",
-    "customer_email": "bob.wilson@example.com",
-    "priority": "high",
-    "timestamp": "2024-01-15T11:30:00"
-  },
-  {
-    "id": "T1004",
-    "issue": "refund request - changed mind",
-    "order_id": "ORD-004",
-    "customer_email": "alice.johnson@example.com",
-    "priority": "low",
-    "timestamp": "2024-01-15T12:00:00"
-  },
-  {
-    "id": "T1005",
-    "issue": "product damaged in shipping",
-    "order_id": "ORD-005",
-    "customer_email": "charlie.brown@example.com",
-    "priority": "critical",
-    "timestamp": "2024-01-15T12:30:00"
-  },
-  {
-    "id": "T1006",
-    "issue": "refund request - never received",
-    "order_id": "ORD-006",
-    "customer_email": "diana.prince@example.com",
-    "priority": "high",
-    "timestamp": "2024-01-15T13:00:00"
-  },
-  {
-    "id": "T1007",
-    "issue": "billing issue - wrong amount charged",
-    "order_id": "ORD-007",
-    "customer_email": "bruce.wayne@example.com",
-    "priority": "high",
-    "timestamp": "2024-01-15T13:30:00"
+    "customer_email": "bob.wilson@example.com"
   }
 ]

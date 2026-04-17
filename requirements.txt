@@ -1,5 +1,4 @@
 # Core dependencies
-concurrent-futures==3.1.1
 python-dotenv==1.0.0
 
 # Optional - for better logging and monitoring

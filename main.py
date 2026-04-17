@@ -1,87 +1,76 @@
-#!/usr/bin/env python3
-"""
-🏆 HACKATHON 2026 WINNING SUBMISSION 🏆
-Intelligent Support Agent with Real Decision Making
-"""
-
-import json
-import sys
-import time
+﻿import json
 from pathlib import Path
-from datetime import datetime
-from src.workflows.ticket_processor import process_tickets
 from src.agent.agent import SupportAgent
 
-def print_winner_banner():
-    """Print beautiful banner"""
-    print("""
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║   🏆  HACKATHON 2026 - WINNING SUBMISSION  🏆               ║
-║                                                              ║
-║   🤖 INTELLIGENT SUPPORT AGENT                               ║
-║   ✅ Real Decision Making                                    ║
-║   ✅ Multi-Tool Orchestration                                ║
-║   ✅ Confidence Scoring                                      ║
-║   ✅ Concurrent Processing                                   ║
-║   ✅ Smart Escalation                                        ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-    """)
-
 def main():
-    print_winner_banner()
+    print("\n" + "="*60)
+    print("🚀 AI CUSTOMER SUPPORT AGENT - HACKATHON 2026")
+    print("="*60 + "\n")
+    
+    # Create data directory if it doesn't exist
+    Path("data").mkdir(exist_ok=True)
+    Path("logs").mkdir(exist_ok=True)
+    
+    # Create sample tickets if they don't exist
+    tickets_file = "data/tickets.json"
+    if not Path(tickets_file).exists():
+        sample_tickets = [
+            {
+                "id": "T001",
+                "issue": "refund request - product defective",
+                "order_id": "ORD-001",
+                "customer_email": "john.doe@example.com"
+            },
+            {
+                "id": "T002",
+                "issue": "order not delivered",
+                "order_id": "ORD-002",
+                "customer_email": "jane.smith@example.com"
+            },
+            {
+                "id": "T003",
+                "issue": "wrong product received",
+                "order_id": "ORD-003",
+                "customer_email": "bob.wilson@example.com"
+            }
+        ]
+        with open(tickets_file, "w") as f:
+            json.dump(sample_tickets, f, indent=2)
+        print(f"✅ Created sample tickets in {tickets_file}\n")
     
     # Load tickets
-    with open("data/tickets.json", "r") as f:
+    with open(tickets_file, "r") as f:
         tickets = json.load(f)
     
-    print(f"📋 Loaded {len(tickets)} tickets for processing\n")
-    
-    # Ask for processing mode
-    print("Select Processing Mode:")
-    print("1. 🚀 Concurrent (Fast - Recommended)")
-    print("2. 🐢 Sequential (Slow - For comparison)")
-    
-    choice = input("\nYour choice (1/2): ").strip()
-    use_concurrency = choice == "1"
-    
-    if use_concurrency:
-        workers = input("Number of concurrent workers (default 5): ").strip()
-        workers = int(workers) if workers else 5
-    else:
-        workers = 1
+    print(f"📋 Loaded {len(tickets)} tickets\n")
     
     # Process tickets
-    print("\n🚀 Starting intelligent agent processing...\n")
-    start_time = time.time()
+    agent = SupportAgent()
+    results = []
     
-    results = process_tickets(tickets, use_concurrency=use_concurrency, max_workers=workers)
+    for i, ticket in enumerate(tickets, 1):
+        print(f"\n📌 Ticket {i}/{len(tickets)}")
+        result = agent.process_ticket(ticket)
+        results.append(result)
     
-    end_time = time.time()
+    # Save audit log
+    audit_file = "logs/audit_log.json"
+    with open(audit_file, "w") as f:
+        json.dump(results, f, indent=2)
     
-    # Save results
-    audit_data = {
-        "execution_timestamp": datetime.now().isoformat(),
-        "processing_mode": "concurrent" if use_concurrency else "sequential",
-        "workers": workers,
-        "total_time_seconds": end_time - start_time,
-        "total_tickets": len(tickets),
-        "results": results
-    }
+    # Final summary
+    print("\n" + "="*60)
+    print("🎉 PROCESSING COMPLETE!")
+    print("="*60)
+    print(f"✅ Total tickets processed: {len(results)}")
+    print(f"📊 Audit log saved to: {audit_file}")
     
-    with open("logs/audit_log.json", "w") as f:
-        json.dump(audit_data, f, indent=2)
-    
-    # Print final summary
-    print(f"\n{'🎯'*40}")
-    print(f"PROCESSING COMPLETE!")
-    print(f"{'🎯'*40}")
-    print(f"✅ Processed: {len(results)} tickets")
-    print(f"⏱️  Time: {end_time - start_time:.2f} seconds")
-    print(f"📊 Check logs/audit_log.json for detailed audit")
-    print(f"\n🏆 READY FOR JUDGING! 🏆")
-    print(f"{'🎯'*40}\n")
+    # Calculate success rate
+    successful = sum(1 for r in results if r['action'] == 'refund_processed')
+    escalated = sum(1 for r in results if r['action'] == 'escalated')
+    print(f"💰 Refunds processed: {successful}")
+    print(f"⚠️ Tickets escalated: {escalated}")
+    print("="*60 + "\n")
 
 if __name__ == "__main__":
     main()
